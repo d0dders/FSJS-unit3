@@ -34,3 +34,17 @@ tshirtDesignField.addEventListener('change', () => {
         }
     }
 });
+
+
+const activitiesFieldset = document.getElementById('activities');
+const activityCheckboxes = document.querySelectorAll('#activities-box input');
+const activitiesTotalCost = document.getElementById('activities-cost');
+activitiesFieldset.addEventListener('change', (e) => {
+    let totalCost = 0;
+    for (let i = 0; i < activityCheckboxes.length; i++) {
+        if (activityCheckboxes[i].checked) {
+            totalCost += parseInt(activityCheckboxes[i].getAttribute('data-cost'));
+        }
+    }
+    activitiesTotalCost.innerText = `Total: $${totalCost}`;
+});
