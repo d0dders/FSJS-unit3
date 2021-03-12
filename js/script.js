@@ -48,3 +48,18 @@ activitiesFieldset.addEventListener('change', (e) => {
     }
     activitiesTotalCost.innerText = `Total: $${totalCost}`;
 });
+
+
+const paymentMethodElement = document.getElementById('payment');
+const creditCardInputs = document.getElementById('credit-card');
+const paypal = document.getElementById('paypal');
+const bitcoin = document.getElementById('bitcoin');
+paypal.hidden = true;
+bitcoin.hidden = true;
+paymentMethodElement.value = 'credit-card';
+paymentMethodElement.addEventListener('change', () => {
+    creditCardInputs.hidden = true;
+    paypal.hidden = true;
+    bitcoin.hidden = true;
+    document.getElementById(paymentMethodElement.value).hidden = false;
+});
