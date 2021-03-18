@@ -63,3 +63,39 @@ paymentMethodElement.addEventListener('change', () => {
     bitcoin.hidden = true;
     document.getElementById(paymentMethodElement.value).hidden = false;
 });
+
+
+function isValidName(text) {
+    return /\S+/.test(text);
+}
+
+function isValidEmail(email) {
+    return /[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(email);
+}
+
+function isValidActivities() {
+    let activitySelected = false;
+    // Don't rely on total cost incase we ever have a free event
+    for (let i = 0; i < activityCheckboxes.length; i++) {
+        if (activityCheckboxes[i].checked) {
+            activitySelected = true;
+        }
+    }
+    return activitySelected;
+}
+
+
+const form = document.querySelector('form');
+const emailField = document.getElementById('email');
+form.addEventListener('submit', (e) => {
+    console.log("Form submitted");
+    console.log(`Name is valid: ${isValidName(nameField.value)}`);
+    console.log(`Email is valid: ${isValidEmail(emailField.value)}`);
+    console.log(`Acivities valid: ${isValidActivities()}`);
+    if (isValidName(nameField.value) &&
+        isValidEmail(emailField.value) &&
+        isValidActivities()) 
+    {
+        e.preventDefault();
+    }
+});
