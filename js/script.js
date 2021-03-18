@@ -84,18 +84,45 @@ function isValidActivities() {
     return activitySelected;
 }
 
+function isValidCardNum(number){
+    return /^\d{13,16}$/.test(number);
+}
+
+function isValidZip(zip){
+    return /^\d{5}$/.test(zip);
+}
+
+function isValidCVV(cvv){
+    return /^\d{3}$/.test(cvv);
+}
 
 const form = document.querySelector('form');
 const emailField = document.getElementById('email');
+const creditCardNumField = document.getElementById('cc-num');
+const zipField = document.getElementById('zip');
+const cvvField = document.getElementById('cvv');
 form.addEventListener('submit', (e) => {
     console.log("Form submitted");
-    console.log(`Name is valid: ${isValidName(nameField.value)}`);
-    console.log(`Email is valid: ${isValidEmail(emailField.value)}`);
-    console.log(`Acivities valid: ${isValidActivities()}`);
-    if (isValidName(nameField.value) &&
-        isValidEmail(emailField.value) &&
-        isValidActivities()) 
-    {
-        e.preventDefault();
+    if (!isValidName(nameField.value)){
+        console.log("Invalid name");
     }
+    if (!isValidEmail(emailField.value)){
+        console.log("Invalid email");
+    }
+    if (!isValidActivities()){
+        console.log("Must select 1 or more activities");
+    } 
+    if (paymentMethodElement.value === 'credit-card'){
+        if (!isValidCardNum(creditCardNumField.value)){
+            console.log("Invalid card number");
+        }
+        if (!isValidZip(zipField.value)){
+            console.log("Invalid zip code");
+        }
+        if (!isValidCVV(cvvField.value)){
+            console.log("Invalid CVV");
+        }
+    }
+    e.preventDefault();
+        
 });
