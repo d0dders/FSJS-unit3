@@ -96,6 +96,37 @@ function isValidCVV(cvv){
     return /^\d{3}$/.test(cvv);
 }
 
+function validateForm() {
+    let isValid = true;
+    if (!isValidName(nameField.value)) {
+        isValid = false;
+        console.log("Invalid name");
+    }
+    if (!isValidEmail(emailField.value)) {
+        isValid = false;
+        console.log("Invalid email");
+    }
+    if (!isValidActivities()) {
+        isValid = false;
+        console.log("Must select 1 or more activities");
+    }
+    if (paymentMethodElement.value === 'credit-card') {
+        if (!isValidCardNum(creditCardNumField.value)) {
+            isValid = false;
+            console.log("Invalid card number");
+        }
+        if (!isValidZip(zipField.value)) {
+            isValid = false;
+            console.log("Invalid zip code");
+        }
+        if (!isValidCVV(cvvField.value)) {
+            isValid = false;
+            console.log("Invalid CVV");
+        }
+    }
+    return isValid;
+}
+
 const form = document.querySelector('form');
 const emailField = document.getElementById('email');
 const creditCardNumField = document.getElementById('cc-num');
@@ -103,26 +134,20 @@ const zipField = document.getElementById('zip');
 const cvvField = document.getElementById('cvv');
 form.addEventListener('submit', (e) => {
     console.log("Form submitted");
-    if (!isValidName(nameField.value)){
-        console.log("Invalid name");
+    if (validateForm() == false){
+        e.preventDefault();
+        console.log("Errors on form");
+    } else {
+        console.log("Form validation passed");
     }
-    if (!isValidEmail(emailField.value)){
-        console.log("Invalid email");
-    }
-    if (!isValidActivities()){
-        console.log("Must select 1 or more activities");
-    } 
-    if (paymentMethodElement.value === 'credit-card'){
-        if (!isValidCardNum(creditCardNumField.value)){
-            console.log("Invalid card number");
-        }
-        if (!isValidZip(zipField.value)){
-            console.log("Invalid zip code");
-        }
-        if (!isValidCVV(cvvField.value)){
-            console.log("Invalid CVV");
-        }
-    }
-    e.preventDefault();
-        
 });
+
+
+for(let i = 0; i < activityCheckboxes.length; i++){
+    activityCheckboxes[i].addEventListener('focus', () => {
+        activityCheckboxes[i].parentElement.classList.add('focus');
+    }); 
+    activityCheckboxes[i].addEventListener('blur', () => {
+        activityCheckboxes[i].parentElement.classList.remove('focus');
+    });
+}
