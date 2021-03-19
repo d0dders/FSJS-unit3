@@ -100,31 +100,62 @@ function validateForm() {
     let isValid = true;
     if (!isValidName(nameField.value)) {
         isValid = false;
+        showValidationHint(nameField);
         console.log("Invalid name");
+    } else {
+        showValidationSuccess(nameField);
     }
     if (!isValidEmail(emailField.value)) {
         isValid = false;
+        showValidationHint(emailField);
         console.log("Invalid email");
+    } else {
+        showValidationSuccess(emailField);
     }
     if (!isValidActivities()) {
         isValid = false;
+        showValidationHint(activitiesTotalCost);
         console.log("Must select 1 or more activities");
+    } else {
+        showValidationSuccess(activitiesTotalCost);
     }
     if (paymentMethodElement.value === 'credit-card') {
         if (!isValidCardNum(creditCardNumField.value)) {
             isValid = false;
+            showValidationHint(creditCardNumField);
             console.log("Invalid card number");
+        } else {
+            showValidationSuccess(creditCardNumField);
         }
         if (!isValidZip(zipField.value)) {
             isValid = false;
+            showValidationHint(zipField);
             console.log("Invalid zip code");
+        } else {
+            showValidationSuccess(zipField);
         }
         if (!isValidCVV(cvvField.value)) {
             isValid = false;
+            showValidationHint(cvvField);
             console.log("Invalid CVV");
+        } else {
+            showValidationSuccess(cvvField);
         }
     }
     return isValid;
+}
+
+
+function showValidationHint(element) {
+    element.parentElement.classList.add('not-valid');
+    element.parentElement.classList.remove('valid');
+    element.parentElement.lastElementChild.style.display = 'inherit';
+}
+
+function showValidationSuccess(element) {
+    element.parentElement.classList.add('valid');
+    element.parentElement.classList.remove('not-valid');
+    element.parentElement.lastElementChild.style.display = 'none';
 }
 
 const form = document.querySelector('form');
