@@ -203,6 +203,13 @@ form.addEventListener('submit', (e) => {
 });
 
 
+nameField.addEventListener('keyup', (e) => {isValidName(e.target)});
+emailField.addEventListener('keyup', (e) => {isValidEmail(e.target)});
+creditCardNumField.addEventListener('keyup', (e) => {isValidCardNum(e.target)});
+zipField.addEventListener('keyup', (e) => {isValidZip(e.target)});
+cvvField.addEventListener('keyup', (e) => {isValidCVV(e.target)});
+
+
 for(let i = 0; i < activityCheckboxes.length; i++){
     activityCheckboxes[i].addEventListener('focus', () => {
         activityCheckboxes[i].parentElement.classList.add('focus');
