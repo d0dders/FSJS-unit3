@@ -21,15 +21,49 @@ const paypal = document.getElementById('paypal');
 const bitcoin = document.getElementById('bitcoin');
 
 
-
-
-
+/**
+ * Set form up
+ */
 nameField.focus();
 jobRoleOtherField.hidden = true;
 tshirtColorField.disabled = true;
 paypal.hidden = true;
 bitcoin.hidden = true;
 paymentMethodElement.value = 'credit-card';
+// Clearer focus states for activity checkboxes
+for(let i = 0; i < activityCheckboxes.length; i++){
+    activityCheckboxes[i].addEventListener('focus', () => {
+        activityCheckboxes[i].parentElement.classList.add('focus');
+    }); 
+    activityCheckboxes[i].addEventListener('blur', () => {
+        activityCheckboxes[i].parentElement.classList.remove('focus');
+    });
+}
+
+
+/**
+ * Prevent submission if validation fails
+ */
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    console.log("Form submitted");
+    if (validateForm() == false){
+        e.preventDefault();
+        console.log("Errors on form");
+    } else {
+        console.log("Form validation passed");
+    }
+});
+
+
+/**
+ * Set below fields to validate in real-time on keyup
+ */
+nameField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidName(e.target)}});
+emailField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidEmail(e.target)}});
+creditCardNumField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidCardNum(e.target)}});
+zipField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidZip(e.target)}});
+cvvField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidCVV(e.target)}});
 
 
 /**
@@ -100,8 +134,9 @@ activitiesFieldset.addEventListener('change', (e) => {
 });
 
 
-
-
+/**
+ * Show or hide payment detils for selected method of payment
+ */
 paymentMethodElement.addEventListener('change', () => {
     creditCardInputs.hidden = true;
     paypal.hidden = true;
@@ -235,30 +270,9 @@ function showValidationSuccess(element) {
 
 
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    console.log("Form submitted");
-    if (validateForm() == false){
-        e.preventDefault();
-        console.log("Errors on form");
-    } else {
-        console.log("Form validation passed");
-    }
-});
 
 
-nameField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidName(e.target)}});
-emailField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidEmail(e.target)}});
-creditCardNumField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidCardNum(e.target)}});
-zipField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidZip(e.target)}});
-cvvField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidCVV(e.target)}});
 
 
-for(let i = 0; i < activityCheckboxes.length; i++){
-    activityCheckboxes[i].addEventListener('focus', () => {
-        activityCheckboxes[i].parentElement.classList.add('focus');
-    }); 
-    activityCheckboxes[i].addEventListener('blur', () => {
-        activityCheckboxes[i].parentElement.classList.remove('focus');
-    });
-}
+
+
