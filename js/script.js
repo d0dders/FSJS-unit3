@@ -1,10 +1,40 @@
+/**
+ * DOM Selectors
+ */
 const nameField = document.getElementById('name');
-nameField.focus();
-
-
 const jobRoleField = document.getElementById('title');
 const jobRoleOtherField = document.getElementById('other-job-role');
+const tshirtDesignField = document.getElementById('design');
+const tshirtColorField = document.getElementById('color');
+const tshirtDesignOptions = document.querySelectorAll('[data-theme]');
+const activitiesFieldset = document.getElementById('activities');
+const activityCheckboxes = document.querySelectorAll('#activities-box input');
+const activitiesTotalCost = document.getElementById('activities-cost');
+const paymentMethodElement = document.getElementById('payment');
+const creditCardInputs = document.getElementById('credit-card');
+const form = document.querySelector('form');
+const emailField = document.getElementById('email');
+const creditCardNumField = document.getElementById('cc-num');
+const zipField = document.getElementById('zip');
+const cvvField = document.getElementById('cvv');
+const paypal = document.getElementById('paypal');
+const bitcoin = document.getElementById('bitcoin');
+
+
+
+
+
+nameField.focus();
 jobRoleOtherField.hidden = true;
+tshirtColorField.disabled = true;
+paypal.hidden = true;
+bitcoin.hidden = true;
+paymentMethodElement.value = 'credit-card';
+
+
+/**
+ * Listen for job role change and toggle the other role field
+ */
 jobRoleField.addEventListener('change', () => {
     if (jobRoleField.value == 'other') {
         jobRoleOtherField.hidden = false;
@@ -14,10 +44,9 @@ jobRoleField.addEventListener('change', () => {
 });
 
 
-const tshirtDesignField = document.getElementById('design');
-const tshirtColorField = document.getElementById('color');
-const tshirtDesignOptions = document.querySelectorAll('[data-theme]');
-tshirtColorField.disabled = true;
+/**
+ * Setup correct t-shirt color options when t-shirt theme changed
+ */
 tshirtDesignField.addEventListener('change', () => {
     // Enable color picker and set it to first option
     tshirtColorField.disabled = false;
@@ -36,9 +65,9 @@ tshirtDesignField.addEventListener('change', () => {
 });
 
 
-const activitiesFieldset = document.getElementById('activities');
-const activityCheckboxes = document.querySelectorAll('#activities-box input');
-const activitiesTotalCost = document.getElementById('activities-cost');
+/**
+ * Total up the cost of activities when selections change
+ */
 activitiesFieldset.addEventListener('change', (e) => {
     let totalCost = 0;
     for (let i = 0; i < activityCheckboxes.length; i++) {
@@ -48,6 +77,11 @@ activitiesFieldset.addEventListener('change', (e) => {
     }
     activitiesTotalCost.innerText = `Total: $${totalCost}`;
 });
+
+
+/**
+ * Disabled/Enable activites according to clashes on the event time
+ */
 activitiesFieldset.addEventListener('change', (e) => {
     const selectedActivity = e.target;
     const activityTime = selectedActivity.nextElementSibling.nextElementSibling;
@@ -61,19 +95,13 @@ activitiesFieldset.addEventListener('change', (e) => {
                 activityCheckboxes[i].disabled = false;
                 activityCheckboxes[i].parentElement.classList.remove('disabled');
             }
-               
         }
     }
 });
 
 
-const paymentMethodElement = document.getElementById('payment');
-const creditCardInputs = document.getElementById('credit-card');
-const paypal = document.getElementById('paypal');
-const bitcoin = document.getElementById('bitcoin');
-paypal.hidden = true;
-bitcoin.hidden = true;
-paymentMethodElement.value = 'credit-card';
+
+
 paymentMethodElement.addEventListener('change', () => {
     creditCardInputs.hidden = true;
     paypal.hidden = true;
@@ -193,16 +221,10 @@ function validateForm() {
 
 
 function showValidationHint(element, hint='') {
-    if (element.value.length != 0){
-        element.parentElement.classList.add('not-valid');
-        element.parentElement.classList.remove('valid');
-        element.parentElement.lastElementChild.style.display = 'inherit';
-        if (hint) {element.parentElement.lastElementChild.textContent = hint;}
-    } else {
-        element.parentElement.classList.remove('valid');
-        element.parentElement.classList.remove('not-valid');
-        element.parentElement.lastElementChild.style.display = 'none';
-    }
+    element.parentElement.classList.add('not-valid');
+    element.parentElement.classList.remove('valid');
+    element.parentElement.lastElementChild.style.display = 'inherit';
+    if (hint) {element.parentElement.lastElementChild.textContent = hint;}
 }
 
 function showValidationSuccess(element) {
@@ -212,12 +234,9 @@ function showValidationSuccess(element) {
 }
 
 
-const form = document.querySelector('form');
-const emailField = document.getElementById('email');
-const creditCardNumField = document.getElementById('cc-num');
-const zipField = document.getElementById('zip');
-const cvvField = document.getElementById('cvv');
+
 form.addEventListener('submit', (e) => {
+    e.preventDefault();
     console.log("Form submitted");
     if (validateForm() == false){
         e.preventDefault();
@@ -228,11 +247,11 @@ form.addEventListener('submit', (e) => {
 });
 
 
-nameField.addEventListener('keyup', (e) => {isValidName(e.target)});
-emailField.addEventListener('keyup', (e) => {isValidEmail(e.target)});
-creditCardNumField.addEventListener('keyup', (e) => {isValidCardNum(e.target)});
-zipField.addEventListener('keyup', (e) => {isValidZip(e.target)});
-cvvField.addEventListener('keyup', (e) => {isValidCVV(e.target)});
+nameField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidName(e.target)}});
+emailField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidEmail(e.target)}});
+creditCardNumField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidCardNum(e.target)}});
+zipField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidZip(e.target)}});
+cvvField.addEventListener('keyup', (e) => {if(e.code != 'Tab') {isValidCVV(e.target)}});
 
 
 for(let i = 0; i < activityCheckboxes.length; i++){
