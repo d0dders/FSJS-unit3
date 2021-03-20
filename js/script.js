@@ -45,7 +45,6 @@ for(let i = 0; i < activityCheckboxes.length; i++){
  * Prevent submission if validation fails
  */
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
     console.log("Form submitted");
     if (validateForm() == false){
         e.preventDefault();
