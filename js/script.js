@@ -65,12 +65,28 @@ paymentMethodElement.addEventListener('change', () => {
 });
 
 
-function isValidName(text) {
-    return /\S+/.test(text);
+function isValidName(field) {
+    const testString = /\S+/;
+    let isValid = false;
+    if (testString.test(field.value)) {
+        showValidationSuccess(field);
+        isValid = true;
+    } else {
+        showValidationHint(field);
+    }
+    return isValid;
 }
 
-function isValidEmail(email) {
-    return /[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(email);
+function isValidEmail(field) {
+    const testString = /[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
+    let isValid = false;
+    if (testString.test(field.value)) {
+        showValidationSuccess(field);
+        isValid = true;
+    } else {
+        showValidationHint(field);
+    }
+    return isValid;
 }
 
 function isValidActivities() {
@@ -81,65 +97,72 @@ function isValidActivities() {
             activitySelected = true;
         }
     }
+    if (activitySelected) {
+        //Sending any child element of activity fieldset
+        showValidationSuccess(activitiesTotalCost);
+        activitySelected = true
+    } else {
+        showValidationHint(activitiesTotalCost);
+    }
     return activitySelected;
 }
 
-function isValidCardNum(number){
-    return /^\d{13,16}$/.test(number);
+function isValidCardNum(field){
+    const testString = /^\d{13,16}$/;
+    let isValid = false;
+    if (testString.test(field.value)) {
+        showValidationSuccess(field);
+        isValid = true;
+    } else {
+        showValidationHint(field);
+    }
+    return isValid;
 }
 
-function isValidZip(zip){
-    return /^\d{5}$/.test(zip);
+function isValidZip(field){
+    const testString = /^\d{5}$/;
+    let isValid = false;
+    if (testString.test(field.value)) {
+        showValidationSuccess(field);
+        isValid = true;
+    } else {
+        showValidationHint(field);
+    }
+    return isValid;
 }
 
-function isValidCVV(cvv){
-    return /^\d{3}$/.test(cvv);
+function isValidCVV(field){
+    const testString = /^\d{3}$/;
+    let isValid = false;
+    if (testString.test(field.value)) {
+        showValidationSuccess(field);
+        isValid = true;
+    } else {
+        showValidationHint(field);
+    }
+    return isValid;
 }
 
 function validateForm() {
     let isValid = true;
-    if (!isValidName(nameField.value)) {
+    if (!isValidName(nameField)) {
         isValid = false;
-        showValidationHint(nameField);
-        console.log("Invalid name");
-    } else {
-        showValidationSuccess(nameField);
     }
-    if (!isValidEmail(emailField.value)) {
+    if (!isValidEmail(emailField)) {
         isValid = false;
-        showValidationHint(emailField);
-        console.log("Invalid email");
-    } else {
-        showValidationSuccess(emailField);
     }
     if (!isValidActivities()) {
         isValid = false;
-        showValidationHint(activitiesTotalCost);
-        console.log("Must select 1 or more activities");
-    } else {
-        showValidationSuccess(activitiesTotalCost);
     }
     if (paymentMethodElement.value === 'credit-card') {
-        if (!isValidCardNum(creditCardNumField.value)) {
+        if (!isValidCardNum(creditCardNumField)) {
             isValid = false;
-            showValidationHint(creditCardNumField);
-            console.log("Invalid card number");
-        } else {
-            showValidationSuccess(creditCardNumField);
         }
-        if (!isValidZip(zipField.value)) {
+        if (!isValidZip(zipField)) {
             isValid = false;
-            showValidationHint(zipField);
-            console.log("Invalid zip code");
-        } else {
-            showValidationSuccess(zipField);
         }
-        if (!isValidCVV(cvvField.value)) {
+        if (!isValidCVV(cvvField)) {
             isValid = false;
-            showValidationHint(cvvField);
-            console.log("Invalid CVV");
-        } else {
-            showValidationSuccess(cvvField);
         }
     }
     return isValid;
@@ -154,6 +177,12 @@ function showValidationHint(element) {
 
 function showValidationSuccess(element) {
     element.parentElement.classList.add('valid');
+    element.parentElement.classList.remove('not-valid');
+    element.parentElement.lastElementChild.style.display = 'none';
+}
+
+function removeValidationHints(element) {
+    element.parentElement.classList.remove('valid');
     element.parentElement.classList.remove('not-valid');
     element.parentElement.lastElementChild.style.display = 'none';
 }
