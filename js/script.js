@@ -48,6 +48,23 @@ activitiesFieldset.addEventListener('change', (e) => {
     }
     activitiesTotalCost.innerText = `Total: $${totalCost}`;
 });
+activitiesFieldset.addEventListener('change', (e) => {
+    const selectedActivity = e.target;
+    const activityTime = selectedActivity.nextElementSibling.nextElementSibling;
+    for (let i = 0; i < activityCheckboxes.length; i++) {
+        if (selectedActivity.getAttribute('name') != activityCheckboxes[i].getAttribute('name') &&
+            activityTime.textContent == activityCheckboxes[i].nextElementSibling.nextElementSibling.textContent) {
+            if(selectedActivity.checked){
+                activityCheckboxes[i].disabled = true;
+                activityCheckboxes[i].parentElement.classList.add('disabled');
+            } else {
+                activityCheckboxes[i].disabled = false;
+                activityCheckboxes[i].parentElement.classList.remove('disabled');
+            }
+               
+        }
+    }
+});
 
 
 const paymentMethodElement = document.getElementById('payment');
@@ -84,7 +101,13 @@ function isValidEmail(field) {
         showValidationSuccess(field);
         isValid = true;
     } else {
-        showValidationHint(field);
+        let hintText = '';
+        if(/^\s*$/.test(field.value)){
+            hintText = 'Email field cannot be blank';
+        } else {
+            hintText = 'Email address must be formatted correctly';
+        }
+        showValidationHint(field, hintText);
     }
     return isValid;
 }
@@ -169,10 +192,17 @@ function validateForm() {
 }
 
 
-function showValidationHint(element) {
-    element.parentElement.classList.add('not-valid');
-    element.parentElement.classList.remove('valid');
-    element.parentElement.lastElementChild.style.display = 'inherit';
+function showValidationHint(element, hint='') {
+    if (element.value.length != 0){
+        element.parentElement.classList.add('not-valid');
+        element.parentElement.classList.remove('valid');
+        element.parentElement.lastElementChild.style.display = 'inherit';
+        if (hint) {element.parentElement.lastElementChild.textContent = hint;}
+    } else {
+        element.parentElement.classList.remove('valid');
+        element.parentElement.classList.remove('not-valid');
+        element.parentElement.lastElementChild.style.display = 'none';
+    }
 }
 
 function showValidationSuccess(element) {
@@ -181,11 +211,6 @@ function showValidationSuccess(element) {
     element.parentElement.lastElementChild.style.display = 'none';
 }
 
-function removeValidationHints(element) {
-    element.parentElement.classList.remove('valid');
-    element.parentElement.classList.remove('not-valid');
-    element.parentElement.lastElementChild.style.display = 'none';
-}
 
 const form = document.querySelector('form');
 const emailField = document.getElementById('email');
