@@ -144,6 +144,11 @@ paymentMethodElement.addEventListener('change', () => {
 });
 
 
+/**
+ * Validates the name input
+ * @param {HTMLElement} field - The name input you want to validate
+ * @returns {boolean} - Returns true if the name field passed validation
+ */
 function isValidName(field) {
     const testString = /\S+/;
     let isValid = false;
@@ -156,6 +161,12 @@ function isValidName(field) {
     return isValid;
 }
 
+
+/**
+ * Validates the email input
+ * @param {HTMLElement} field - The email input you want to validate
+ * @returns {boolean} - Returns true if the email field passed validation
+ */
 function isValidEmail(field) {
     const testString = /[^@]+@[^@]+\.[a-zA-Z]{2,}$/;
     let isValid = false;
@@ -174,6 +185,11 @@ function isValidEmail(field) {
     return isValid;
 }
 
+
+/**
+ * Validates that an activity was selected
+ * @returns {boolean} - Returns true if at least one activity was selected
+ */
 function isValidActivities() {
     let activitySelected = false;
     // Don't rely on total cost incase we ever have a free event
@@ -192,6 +208,12 @@ function isValidActivities() {
     return activitySelected;
 }
 
+
+/**
+ * Validates the card number input
+ * @param {HTMLElement} field - The card number input you want to validate
+ * @returns {boolean} - Returns true if the card number field passed validation
+ */
 function isValidCardNum(field){
     const testString = /^\d{13,16}$/;
     let isValid = false;
@@ -204,6 +226,12 @@ function isValidCardNum(field){
     return isValid;
 }
 
+
+/**
+ * Validates the zip code input
+ * @param {HTMLElement} field - The zip code input you want to validate
+ * @returns {boolean} - Returns true if the zip code field passed validation
+ */
 function isValidZip(field){
     const testString = /^\d{5}$/;
     let isValid = false;
@@ -216,6 +244,12 @@ function isValidZip(field){
     return isValid;
 }
 
+
+/**
+ * Validates the CVV input
+ * @param {HTMLElement} field - The CVV input you want to validate
+ * @returns {boolean} - Returns true if the CVV field passed validation
+ */
 function isValidCVV(field){
     const testString = /^\d{3}$/;
     let isValid = false;
@@ -228,6 +262,11 @@ function isValidCVV(field){
     return isValid;
 }
 
+
+/**
+ * Calls the various validation methods to checo of the form was completed correctly
+ * @returns {boolean} - Returns true if the form was validated
+ */
 function validateForm() {
     let isValid = true;
     if (!isValidName(nameField)) {
@@ -254,6 +293,11 @@ function validateForm() {
 }
 
 
+/**
+ * If a field fails validation adds a class to highlight it and show a hint explaing why it failed
+ * @param {HTMLElement} element - The field we are highlighting
+ * @param {string} [hint=''] - An optional message to show as a hint 
+ */
 function showValidationHint(element, hint='') {
     element.parentElement.classList.add('not-valid');
     element.parentElement.classList.remove('valid');
@@ -261,6 +305,11 @@ function showValidationHint(element, hint='') {
     if (hint) {element.parentElement.lastElementChild.textContent = hint;}
 }
 
+
+/**
+ * If a field passes validation ad a class to indicate the success
+ * @param {HTMLElement} element - The field we are highlighting 
+ */
 function showValidationSuccess(element) {
     element.parentElement.classList.add('valid');
     element.parentElement.classList.remove('not-valid');
